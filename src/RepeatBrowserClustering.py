@@ -9,6 +9,8 @@ import string
 import multiprocessing
 from APIFramework import APIFramework, APIFrameworkWithFrontEnd, queue
 
+import cluster
+
 
 
 class RepeatBrowserClustering(APIFrameworkWithFrontEnd):
@@ -47,11 +49,7 @@ class RepeatBrowserClustering(APIFrameworkWithFrontEnd):
             list_id = task_detail["id"]
             txt = task_detail["tsv_content"]
 
-            print(txt)
-
-
-
-            result = txt[:100]
+            result = cluster.txt2json(input_str=txt)
 
             calculation_end_time = time.time()
             calculation_time_cost = calculation_end_time - calculation_start_time

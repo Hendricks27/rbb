@@ -1,9 +1,7 @@
-# This is a sample Python script.
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-from clustergrammer import Network
 import io
+from clustergrammer import Network
+
 
 
 def txt2json(input_str="", filename=None):
