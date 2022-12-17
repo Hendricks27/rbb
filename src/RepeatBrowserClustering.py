@@ -18,7 +18,7 @@ class RepeatBrowserClustering(APIFrameworkWithFrontEnd):
     def form_task(self, p):
         res = {}
 
-        txt = p["tsv_content"].strip()
+        txt = p["tsv_content"]
 
         list_id = self.str2hash(txt.encode("utf-8"))
 
