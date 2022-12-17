@@ -11,8 +11,9 @@ def txt2json(input_str="", filename=None):
     # net.load_file('test.txt')
     buff = io.StringIO(input_str)
 
-    if '/' in filename:
-        filename = filename.split('/')[-1]
+    if filename != None:
+        if '/' in filename:
+            filename = filename.split('/')[-1]
 
     net.load_tsv_to_net(buff, filename)
 
