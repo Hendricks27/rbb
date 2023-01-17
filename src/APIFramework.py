@@ -426,7 +426,7 @@ class APIFramework(object):
         # flask_cors.CORS(flask_app)
         # flask_app.config['CORS_HEADERS'] = 'Content-Type'
 
-        flask_app.run(self.host(), self.port(), False, ssl_context='adhoc')
+        flask_app.run(self.host(), self.port(), False)
 
 
     # FLASK related functions starts here
@@ -468,6 +468,7 @@ class APIFramework(object):
             return response
 
         if "tasks" not in p and "task" not in p and "q" not in p:
+            print(p)
             response = flask.jsonify("Please submit with actual tasks")
             return response
 
@@ -954,44 +955,19 @@ class APIFramework(object):
         self.cleanup()
 
         while True:
-            time.sleep(60)
-
-            unfinished_job_count = self.task_queue.qsize()
+            time.sleep(10)
 
             self.deamon_process_pool_update()
 
             require_new_worker = False
-            if unfinished_job_count > 10:
+            if len(self._deamon_process_pool) < self.max_worker_num():
                 require_new_worker = True
-            if len(self._deamon_process_pool) >= self.max_worker_num():
-                require_new_worker = False
 
             if require_new_worker:
 
                 self.output(0, "Need more worker...")
                 new_pid, new_proc = self.new_worker_process()
                 self._deamon_process_pool[new_pid] = new_proc
-
-            if unfinished_job_count >= len(self._deamon_process_pool):
-                while True:
-                    try:
-                        pid = self.request_suicide_queue.get_nowait()
-                    except queue.Empty:
-                        break
-                continue
-
-            try:
-                pid = self.request_suicide_queue.get_nowait()
-
-                self.deamon_process_pool_update()
-
-                if len(self._deamon_process_pool) > 1:
-                    self.approve_suicide_queue.put(True)
-                    self.output(0, "Sending KILL-SIGNAL to worker")
-                self.deamon_process_pool_update()
-
-            except queue.Empty:
-                pass
 
 
     def cleanup(self):
