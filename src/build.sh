@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tag="V0.1.1"
+tag="V0.1.2"
 
 docker build --platform linux/amd64 -t wenjin27/rbb:$tag -t wenjin27/rbb:latest ./
 
