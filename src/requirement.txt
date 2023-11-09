@@ -2,8 +2,5 @@ flask
 flask-cors
 pyopenssl
 pandas==0.25.1
-clustergrammer
 scikit-learn
-
-
 
